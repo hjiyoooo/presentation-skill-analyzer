@@ -1,3 +1,4 @@
+ML term project
 # 🎙️ Presentation Skill Analyzer
 
 본 프로젝트는 한국어 강의 및 발표 데이터를 기반으로 발표 품질을 평가(Good/Poor)하고, 발표자에게 발표 분석 및 개선 피드백을 제공하는 ML 시스템이다.
