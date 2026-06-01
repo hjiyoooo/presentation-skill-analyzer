@@ -12,65 +12,14 @@ ML term project
 - Interactive Dashboard : Gradio 웹 인터페이스 (07_dashboard.ipynb)
 
 ## 프로젝트 구조
-presentation-skill-analyzer/
-├── notebooks/
-│   ├── 01_EDA.ipynb                  # KsponSpeech 필러워드 분포 / 영어 평가 점수 분포 분석
-│   ├── 02_preprocessing.ipynb        # KLEC 전처리, 피처 추출, 레이블링, 데이터 분할
-│   ├── 03_baseline.ipynb             # Logistic Regression / Random Forest 베이스라인
-│   ├── 04_main_model.ipynb           # KLUE-RoBERTa 단독 fine-tuning
-│   ├── 05_feature_concat_model.ipynb # Feature Concat 모델 (class weight, Early Stopping)
-│   ├── 05_feature_concat_model2.ipynb# 데이터 10K 확장 및 최종 실험
-│   ├── 06_Inference.ipynb            # 저장 모델 로드 및 추론 파이프라인 검증
-│   └── 07_dashboard.ipynb            # Gradio 대시보드
-├── data/
-│   ├── train.csv                     # 학습 데이터 (7,000개)
-│   ├── val.csv                       # 검증 데이터 (1,000개)
-│   └── test.csv                      # 테스트 데이터 (2,000개)
-├── inference_utils.py                # 모델 정의, 피처 추출, 추론, 피드백 공통 유틸
-├── requirements.txt
-└── README.md
+<img width="495" height="260" alt="image" src="https://github.com/user-attachments/assets/7513397c-682c-4bd5-9056-515e86d78504" />
 
 ## 모델 아키텍처
-[입력: 발화 전사 텍스트]
-        │
-   clean_text 정제
-        │
-  klue/roberta-small
-        │
-   [CLS] 벡터 (768d)
-        │
-   Dropout(0.1)         ← concat →   수치형 피처 (5d, StandardScaler 정규화)
-        └──────────────────┬──────────────────┘
-                     773d 결합 벡터
-                           │
-                   Linear(773 → 256)
-                       ReLU
-                   Dropout(0.1)
-                   Linear(256 → 2)
-                           │
-               [Good(1) / Poor(0)] + 확률값
+<img width="419" height="280" alt="image" src="https://github.com/user-attachments/assets/453d1422-feb1-4b30-b89e-bdb845a58b3a" />
 
 
 ## 실험 결과 요약
-모델              Accuracy    F1   PoorRecall   GoodRecall
------------------------------------------------------------
-Logistic 
-Regression        62.1%    0.718      —             —
------------------------------------------------------------
-Random 
-Forest            62.3%    0.679      —             —
------------------------------------------------------------
-KLUE-RoBERTa 
-단독               59.9%    0.685     38%           76%
------------------------------------------------------------
-Concat 
-(no weight)       64.1%    0.753      22%           95%
------------------------------------------------------------
-Concat 
-(weight=2.0, ES)  71.5%    0.753      66%           76%
------------------------------------------------------------
-Concat 
-(weight=2.5, ES)  69.3%    0.700      78%           63%
+<img width="331" height="285" alt="image" src="https://github.com/user-attachments/assets/09882b64-ee04-4454-ac46-5e4bb4fecc24" />
 
 발표 약점 진단이 핵심 목적이므로 Poor(발화 품질 낮음)를 놓치지 않는 것이 중요합니다. Poor Recall 78%를 달성한 weight=2.5 + Early Stopping 모델을 최종 모델로 선택하였습니다.
 
@@ -94,11 +43,7 @@ AI Hub에서 아래 데이터셋을 다운로드합니다. (회원가입 및 신
 - 한국어 음성 https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=123
 - 영어 말하기 평가 https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=71418
 다운로드 후 Google Drive에 아래와 같이 배치합니다.
-MyDrive/
-└── presentation_data/
-    ├── KLEC/          # 한국어 강의 음성 전사 텍스트 (.txt, .json)
-    ├── KsponSpeech/   # 한국어 대화 음성 전사 텍스트
-    └── english_eval/  # 영어 말하기 평가 데이터
+<img width="346" height="84" alt="image" src="https://github.com/user-attachments/assets/e5fc14dc-7baa-4042-9aa3-fddb2f70e872" />
 
 ### step 1 : EDA (01_EDA.ipynb)
 - KsponSpeech 필러워드 비율 분포 분석 → 한국어 일상 발화 기준값 산출
